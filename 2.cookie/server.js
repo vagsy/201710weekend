@@ -12,7 +12,14 @@ let path = require('path');
 let bodyParser = require('body-parser');
 let app = express();
 //此中间件是专门用来处理请求体的，会把查询字符串格式的请求体转成一个对象并赋给req.body
-app.use(bodyParser.urlencoded());
+//把查询字符串变成对象 querystring.parse() qs.parse();
+/**
+ *
+ The `extended` option allows to choose between parsing the URL-encoded data
+ with the `querystring` library (when `false`) or the `qs` library (when
+ `true`).
+ */
+app.use(bodyParser.urlencoded({extended:false}));
 //设置模板引擎
 app.set('view engine','html');
 //设置模板存放的根目录
