@@ -10,7 +10,9 @@
 let express = require('express');
 let path = require('path');
 let bodyParser = require('body-parser');
+let cookieParser = require('cookie-parser');
 let app = express();
+app.use(cookieParser());
 //此中间件是专门用来处理请求体的，会把查询字符串格式的请求体转成一个对象并赋给req.body
 //把查询字符串变成对象 querystring.parse() qs.parse();
 /**
@@ -30,7 +32,11 @@ let users = [];
 app.listen(8080);
 //当客户端通过GET方式访问/reg的时候，服务器返回一个空白的注册表单
 app.get('/reg',function(req,res){
-  res.render('reg',{title:'用户注册'});
+  //把cookie中的error属性取出
+  let error = req.cookies.error||'';
+  //清除cookie中的error
+  res.clearCookie('error');
+  res.render('reg',{title:'用户注册',error});
 });
 app.post('/reg',function(req,res){
    let user = req.body;
@@ -38,7 +44,9 @@ app.post('/reg',function(req,res){
    let oldUser = users.find(item=>item.username == user.username);
    if(oldUser){//如果找到了同名用户，则重定向到注册页
      //back是一个关键字，表示上一个页面，从哪来回滚哪里去
-     res.redirect('back');
+     //向客户端写入cookie
+     res.cookie('error','此用户名已经被占用，请换一个试试');
+     res.redirect('back');//让客户端重新向另外一个路径发起请求
    }else{//如果没有找到同名的用户，则重定向到登录页
      users.push(user);
      res.redirect('/login');
