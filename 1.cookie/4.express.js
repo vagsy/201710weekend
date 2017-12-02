@@ -30,8 +30,11 @@ app.get('/write',function(req,res){
     expires:new Date(Date.now()+10*1000) //设置cookie的绝对失效时间，过期删除
   });*/
   //path 表示向哪些路径发请求的时候带上此cookie,默认是/
-  res.cookie('name','zfpx',{
+ /* res.cookie('name','zfpx',{
     path:'/read1'//表示只有向/read1路径及其子路径发请求的时候才会带上cookie
+  });*/
+  res.cookie('name','xxx',{
+    httpOnly:true //不能通过js来获取或修改
   });
   res.send('写入完毕');
 });
