@@ -48,7 +48,18 @@ app.post('/reg',function(req,res){
 app.get('/login',function(req,res){
  res.render('login',{title:'用户登录'});
 });
-app.post('/login',function(req,res){});
+//当客户端提交登录表单之后
+app.post('/login',function(req,res){
+ let user = req.body;//{username,password}
+  //查找一下看看用户数组中有没有符合条件的用户
+ let oldUser = users.find(item=>item.username==user.username && item.password == user.password);
+ if(oldUser){//如果找到了说了登录是成功的
+    res.redirect('/user');
+ }else{//如果没有找到，说明登录是失败的
+   res.redirect('back');
+ }
+});
+//用户主页
 app.get('/user',function(req,res){
-
+ res.render('user',{title:'用户主页'});
 });
