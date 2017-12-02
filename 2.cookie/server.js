@@ -11,7 +11,7 @@ let express = require('express');
 let path = require('path');
 let bodyParser = require('body-parser');
 let cookieParser = require('cookie-parser');
-let md5 = require('crypto').createHash('md5');
+let crypto = require('crypto');
 let app = express();
 app.use(cookieParser());
 //此中间件是专门用来处理请求体的，会把查询字符串格式的请求体转成一个对象并赋给req.body
@@ -50,7 +50,7 @@ app.post('/reg',function(req,res){
      res.redirect('back');//让客户端重新向另外一个路径发起请求
    }else{//如果没有找到同名的用户，则重定向到登录页
      //先对密码进行md5加密后才保存
-     user.password = md5.update(user.password).digest('hex');
+     user.password = crypto.createHash('md5').update(user.password).digest('hex');
      users.push(user);
      res.redirect('/login');
    }
@@ -65,7 +65,7 @@ app.get('/login',function(req,res){
 app.post('/login',function(req,res){
  let user = req.body;//{username,password}
   //查找一下看看用户数组中有没有符合条件的用户
- let oldUser = users.find(item=>item.username==user.username && item.password == user.password);
+ let oldUser = users.find(item=>item.username==user.username && item.password == crypto.createHash('md5').update(user.password).digest('hex'));
  if(oldUser){//如果找到了说了登录是成功的
     res.cookie('success','登录成功');
     res.cookie('username',oldUser.username);
