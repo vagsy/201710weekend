@@ -16,5 +16,10 @@
   "bugs": {
     "url": "https://github.com/zhufengnodejs/201710weekend/issues"
   },
-  "homepage": "https://github.com/zhufengnodejs/201710weekend#readme"
+  "homepage": "https://github.com/zhufengnodejs/201710weekend#readme",
+  "dependencies": {
+    "body-parser": "^1.18.2",
+    "cookie-parser": "^1.4.3",
+    "express": "^4.16.2"
+  }
 }
