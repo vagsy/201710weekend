@@ -11,6 +11,7 @@ let express = require('express');
 let path = require('path');
 let bodyParser = require('body-parser');
 let cookieParser = require('cookie-parser');
+let md5 = require('crypto').createHash('md5');
 let app = express();
 app.use(cookieParser());
 //此中间件是专门用来处理请求体的，会把查询字符串格式的请求体转成一个对象并赋给req.body
@@ -48,6 +49,8 @@ app.post('/reg',function(req,res){
      res.cookie('error','此用户名已经被占用，请换一个试试');
      res.redirect('back');//让客户端重新向另外一个路径发起请求
    }else{//如果没有找到同名的用户，则重定向到登录页
+     //先对密码进行md5加密后才保存
+     user.password = md5.update(user.password).digest('hex');
      users.push(user);
      res.redirect('/login');
    }
