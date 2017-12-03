@@ -42,10 +42,10 @@ class Search extends React.Component {
        let index = this.state.index;
        if(keyCode == 40){//向下
           if(++index>=this.state.words.length){
-            index = 0;
+            index = -1;
           }
        }else if(keyCode = 38){//向上
-          if(--index<0){
+          if(--index==-2){
             index=this.state.words.length-1;
           }
        }
