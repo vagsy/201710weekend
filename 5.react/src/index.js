@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import 'bootstrap/dist/css/bootstrap.css'
+import 'bootstrap/dist/css/bootstrap.css';
+import $ from 'jquery';
 /**
  * 1.如何定义和使用复合组件
  * 2.如何跟后台进行数据交互
@@ -15,7 +16,23 @@ class Search extends React.Component {
 
   handleChange = (event) => {
     let wd = event.target.value;
-
+    /**
+     * 1.success成功回调函数
+     * 2.then
+     * 3.done
+     * https://www.baidu.com/su?cb=jQuery32105310044693736287_1512287350132&wd=a&_=1512287350133
+     */
+    $.ajax({
+      type:'GET',
+      url:`http://www.baidu.com/su`,
+      dataType:'jsonp',//指定响应体的内容类型
+      //http://www.baidu.com/su?cb=xxx
+      jsonp:'cb',//指定在后台接收回调方法名的参数名
+      data:{wd},//传递数据
+      success:(result)=>{
+        this.setState({words:result.s,wd});
+      }
+    })
   }
 
   render() {
