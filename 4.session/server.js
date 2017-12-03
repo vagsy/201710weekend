@@ -11,7 +11,6 @@ let express = require('express');
 let path = require('path');
 let bodyParser = require('body-parser');
 let session = require('express-session');
-let cookieParser = require('cookie-parser');
 let crypto = require('crypto');
 let app = express();
 app.use(session({
@@ -19,7 +18,6 @@ app.use(session({
   saveUninitialized:true,
   secret:'zfpx'
 }));
-app.use(cookieParser());
 //此中间件是专门用来处理请求体的，会把查询字符串格式的请求体转成一个对象并赋给req.body
 //把查询字符串变成对象 querystring.parse() qs.parse();
 /**
