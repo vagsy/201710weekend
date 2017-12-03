@@ -11,11 +11,17 @@ class Search extends React.Component {
     super();
     //wd 是输入框的值  words是一个空数组
     this.state = {wd: '', words: []};
+    window.jsonpCallback = (result) => {
+      this.setState({words:result.s});
+    }
   }
 
   handleChange = (event) => {
     let wd = event.target.value;
-
+    let script = document.createElement('script');
+    script.src = `http://www.baidu.com/su?wd=${wd}&cb=jsonpCallback`;
+    document.body.appendChild(script);
+    this.setState({wd});
   }
 
   render() {
