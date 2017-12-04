@@ -11,7 +11,8 @@ class Search extends React.Component {
   constructor() {
     super();
     //wd 是输入框的值  words是一个空数组
-    this.state = {wd: '', words: [],index:-1};
+    this.state = {words: [],index:-1};
+    this.wd = '';
   }
 
   handleChange = (event) => {
@@ -22,7 +23,7 @@ class Search extends React.Component {
      * 3.done
      * https://www.baidu.com/su?cb=jQuery32105310044693736287_1512287350132&wd=a&_=1512287350133
      */
-    this.setState({wd},()=>{
+    this.wd = wd;
       $.ajax({
         type:'GET',
         url:`http://www.baidu.com/su`,
@@ -34,7 +35,6 @@ class Search extends React.Component {
           this.setState({words:result.s});
         }
       })
-    });
   }
   handleKeyDown = (event)=>{
      let keyCode = event.keyCode;
@@ -62,7 +62,7 @@ class Search extends React.Component {
                 <input
                   onKeyDown={this.handleKeyDown}
                   onChange={this.handleChange}
-                  value={this.state.index == -1?this.state.wd:this.state.words[this.state.index]}
+                  value={this.state.index == -1?this.wd:this.state.words[this.state.index]}
                   type="text" className="form-control"/>
               </div>
               <div className="panel-body">
@@ -82,3 +82,6 @@ class Search extends React.Component {
   }
 }
 ReactDOM.render(<Search/>, document.querySelector('#root'));
+//A component is changing a controlled input of type text to be uncontrolled. Input elements should not switch from controlled to uncontrolled (or vice versa).
+//一个组件正在从一个受控组件变成一个非受控组件，输入元素不应该从受控组件切换到非受控组件
+// 因为value等于了undefined
